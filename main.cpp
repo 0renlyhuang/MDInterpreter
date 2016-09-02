@@ -11,7 +11,7 @@ int main() {
 	std::string head = "<!DOCTYPE html><html><head>\
         <meta charset=\"utf-8\">\
         <title>Markdown</title>\
-        <link rel=\"stylesheet\" href=\"github-markdown.css\">\
+        <link rel=\"stylesheet\" href=\"markdown.css\">\
         </head><body><article class=\"markdown-body\">";
 	std::string end = "</article></body></html>";
 

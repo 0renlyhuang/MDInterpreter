@@ -55,22 +55,18 @@ const std::array<std::string, 20> backTag = { {
 	"</code></pre>","</code>"
 } };
 
+// 保存目录结果
 struct Cnode
 {
-	/*
-	* 保存目录结果
-	*/
 	Cnode(const string &hd) : heading(hd) {}
 	vector<Cnode*> ch;
 	string heading;
 	string tag;
 };
 
+// 保存正文内容的结构
 struct Node
 {
-	/*
-	* 保存正文内容的结构
-	*/
 	Node(int t) : type(t) {}
 	int type;
 	vector<Node*> ch;
@@ -164,15 +160,14 @@ inline pair<int, string> start(const string &src) {
 		else if (c == '\t')
 			++tabCnt;
 		else 
+			// 记录下tab的数量，留下没有tab的字符串
 			return make_pair(tabCnt + spaceCnt / 4, src.substr(tabCnt + spaceCnt));		
 	}
 	return make_pair(0, "");
 }
 
-inline pair<int, string> judgeType(const string &src) {
-	/*
-	 * 行类型判断 
-	 */
+// 行类型判断
+inline pair<int, string> judgeType(const string &src) { 
 	string::const_iterator beg = src.cbegin(), it = beg;
 	// it跳过#
 	while (*it == '#')
@@ -183,7 +178,7 @@ inline pair<int, string> judgeType(const string &src) {
 		return make_pair(it - beg + h1 - 1, src.substr(it - beg + 1));
 
 	// 如果行开头无#是'''
-	if (src.substr(0, 3) == "'''")
+	if (src.substr(0, 3) == "```")
 		return make_pair(blockcode, src.substr(3));
 
 	// 如果行开头是*/+/-加空格
@@ -205,6 +200,9 @@ inline pair<int, string> judgeType(const string &src) {
 		return make_pair(ol, src.substr(it - beg + 2));
 
 	// 如果行是普通段落
+	auto p = make_pair(paragraph, src);
+	string sc = p.second;
+	int ty = p.first;
 	return make_pair(paragraph, src);
 }
 

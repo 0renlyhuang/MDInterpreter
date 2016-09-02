@@ -15,7 +15,7 @@ MarkdownTransform::MarkdownTransform(const std::string&& filename) {
 
 	while (getline(fin, s)) {
 
-		// 处理不在代码块中且需要换行
+		// 处理不在代码块中且需要换行 
 		if (!inBlock && isCutline(s)) {
 			now = root;
 			now->ch.push_back(new Node(hr));
@@ -23,6 +23,7 @@ MarkdownTransform::MarkdownTransform(const std::string&& filename) {
 			continue;
 		}
 
+		// 处理行开始的空格和Tab
 		pair<int, string> ps = start(s);
 
 		// 处理不在代码块且没有统计到空格和Tab
@@ -72,6 +73,7 @@ MarkdownTransform::MarkdownTransform(const std::string&& filename) {
 			}
 
 			now->ch.push_back(new Node(nul));
+			string ts = tj.second;
 			insert(now->ch.back(), tj.second);
 			newPara = false;
 			continue;
@@ -361,6 +363,7 @@ void MarkdownTransform::insert(Node *v, const string &src) {
 			}
 		}
 		// 对普通字符的处理
+		v->ch.push_back(new Node(nul));
 		v->ch.back()->elem[0] += string(1, ch);
 		if (inautolink)
 			v->ch.back()->elem[1] += string(1, ch);
